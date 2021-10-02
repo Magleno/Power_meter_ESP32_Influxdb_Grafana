@@ -17,10 +17,29 @@ WiFiMulti wifiMulti;
 #define INFLUXDB_DB_NAME "home"
 
 // InfluxDB client instance
-InfluxDBClient client(INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_BUCKET, INFLUXDB_TOKEN);
+InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 void setup() {
-  // put your setup code here, to run once:
+  Serial.begin(115200);
+
+  // Connect WiFi
+  Serial.println("Connecting to WiFi");
+  WiFi.mode(WIFI_STA);
+  wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
+  while (wifiMulti.run() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println();
+
+  // Check server connection
+  if (client.validateConnection()) {
+    Serial.print("Connected to InfluxDB: ");
+    Serial.println(client.getServerUrl());
+  } else {
+    Serial.print("InfluxDB connection failed: ");
+    Serial.println(client.getLastErrorMessage());
+  }
 
 }
 
