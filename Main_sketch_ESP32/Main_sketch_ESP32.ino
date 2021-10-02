@@ -22,6 +22,7 @@ InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 // Data point
 Point sensor("wifi_status");
 
+float i=0;
 void setup() {
   Serial.begin(115200);
 
@@ -51,6 +52,7 @@ void loop() {
   sensor.clearFields();
   // Report RSSI of currently connected network
   sensor.addField("rssi", WiFi.RSSI());
+  sensor.addField("test", i);
   // Print what are we exactly writing
   Serial.print("Writing: ");
   Serial.println(client.pointToLineProtocol(sensor));
@@ -67,5 +69,6 @@ void loop() {
   //Wait 10s
   Serial.println("Wait 10s");
   delay(10000);
+  i=i+1;
 
 }
