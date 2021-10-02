@@ -16,6 +16,9 @@ WiFiMulti wifiMulti;
 // InfluxDB v1 database name 
 #define INFLUXDB_DB_NAME "home"
 
+// InfluxDB client instance
+InfluxDBClient client(INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_BUCKET, INFLUXDB_TOKEN);
+
 void setup() {
   // put your setup code here, to run once:
 
